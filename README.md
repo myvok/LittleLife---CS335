@@ -15,7 +15,7 @@ The game is built using object-oriented programming principles in Java. It consi
     •	Tamagotchi – Tracks pet stats and state changes
     •	GameLogic – Manages the gameplay loop and interactions
     •	Player – Handles user inputs and interactions
-    •	UI (Optional Future Update) – Displays pet stats in an intuitive way
+    •	UI – Displays pet stats in an intuitive way
 
 ## 🚀 Getting Started
     1️⃣ Compile and run the game: Main.java   
