@@ -18,8 +18,8 @@ The game is built using object-oriented programming principles in Java. It consi
     •	UI – Displays pet stats in an intuitive way
 
 ## 🚀 Getting Started
-    1️⃣ Compile and run the game: Main.java   
-    3️⃣ Enjoy taking care of your digital pet! 🐾
+    1️ Compile and run the game: Main.java   
+    2 Enjoy taking care of your digital pet! 🐾
 
 ## 👥 Meet the Team
     👧My Vo – Programmer 💻
