@@ -22,9 +22,9 @@ The game is built using object-oriented programming principles in Java. It consi
     2 Enjoy taking care of your digital pet! 🐾
 
 ## 👥 Meet the Team
-    👧My Vo – Programmer 💻
-    👩‍🦰Olivia – Designer 🎨
-    👱‍♀️Yiru – Tester 🔍
+    My Vo – Programmer 💻
+    Olivia – Designer 🎨
+    Yiru – Tester 🔍
     
 ## 📌 Future Plans
 
