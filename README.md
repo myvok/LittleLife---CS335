@@ -1,4 +1,4 @@
-# 🐣 LittleLife---TAMAGOTCHI GAME 
+# 🐣 LittleLife---TAMAGOTCHI GAME (ꈍ ᴗ ꈍ🌸)
 A fun and interactive Java-based virtual pet game where players care for their Tamagotchi by feeding, playing, and keeping it happy! This project simulates the responsibilities of pet ownership, providing an engaging experience while maintaining a simple and manageable gameplay loop. 
 
 ## 🎮 Features
@@ -22,9 +22,9 @@ The game is built using object-oriented programming principles in Java. It consi
     3️⃣ Enjoy taking care of your digital pet! 🐾
 
 ## 👥 Meet the Team
-    👧🏼	Olivia – Designer 🎨
-    👧🏼	My Vo – Programmer 💻
-    👧🏼	Yiru – Tester 🔍
+    👧My Vo – Programmer 💻
+    👩‍🦰Olivia – Designer 🎨
+    👱‍♀️Yiru – Tester 🔍
     
 ## 📌 Future Plans
 
