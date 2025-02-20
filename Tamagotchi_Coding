@@ -1,0 +1,283 @@
+public class Main {
+    public static void main(String[] args) {
+        UI ui = new UI();
+        ui.showStartScreen();
+    }
+}
+
+class Tamagotchi {
+    private String name;
+    private String pronouns;
+    private int health;
+    private int happiness;
+    private int hunger;
+    private boolean isSick;
+    private static final int MAX_VALUE = 130;
+
+    public Tamagotchi(String name, String pronouns) {
+        this.name = name;
+        this.pronouns = pronouns;
+        this.health = 75;
+        this.happiness = 75;
+        this.hunger = 75;
+        this.isSick = false;
+    }
+
+    public void changeHealth(int amount) {
+        health = Math.min(health + amount, MAX_VALUE);
+        checkSickness();
+        checkGameOver();
+    }
+
+    public void changeHappiness(int amount) {
+        happiness = Math.min(happiness + amount, MAX_VALUE);
+        checkSickness();
+        checkGameOver();
+    }
+
+    public void changeHunger(int amount) {
+        hunger = Math.min(hunger + amount, MAX_VALUE);
+        checkSickness();
+        checkGameOver();
+    }
+
+    private void checkSickness() {
+        boolean wasSick = isSick; 
+        isSick = (health < 40 || happiness < 40 || hunger < 40);
+
+        if (isSick && !wasSick) { 
+            System.out.println(name + " is sick! Take better care of your pet.");
+        }
+    }
+    
+    private void checkGameOver() {
+        if (health <= 0 || happiness <= 0 || hunger <= 0) {
+            System.out.println(name + " has died. Game Over.");
+            //System.exit(0);
+            UI.promptPlayAgain();
+        }
+    }
+
+    public boolean canGoOnDate() {
+        return health > 100 && happiness > 100 && hunger > 100;
+    }
+
+    public boolean isAlive() {
+        return health > 0 && happiness > 0 && hunger > 0;
+    }
+
+    public String getStatus() {
+        String status = name + " (" + pronouns + ") - Health: " + health + ", Happiness: " + happiness + ", Hunger: " + hunger;
+        if (isSick) status += " (Sick)";
+        if (canGoOnDate()) status += " Ready for a date! Will update for Final-term";
+        return status;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+class Player {
+    private String name;
+
+    public Player(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void feed(Tamagotchi pet, String food) {
+        switch (food.toLowerCase()) {
+            case "apple":
+            case "vegetables":
+            case "water":
+                pet.changeHunger(15);
+                pet.changeHealth(15);
+                System.out.println("You fed " + pet.getName() + " healthy food!");
+                break;
+            case "soda":
+            case "candy":
+                pet.changeHunger(10);
+                pet.changeHealth(-10);
+                System.out.println("You gave " + pet.getName() + " some sugary food.");
+                break;
+            case "beer":
+            case "junk food":
+                pet.changeHappiness(5);
+                pet.changeHunger(5);
+                pet.changeHealth(-15);
+                System.out.println("You fed " + pet.getName() + " unhealthy food. ");
+                break;
+            default:
+                System.out.println("Invalid food choice.");
+        }
+    }
+
+    public void play(Tamagotchi pet, String activity) {
+        switch (activity.toLowerCase()) {
+            case "fetch":
+            case "walk":
+                pet.changeHappiness(15);
+                pet.changeHealth(15);
+                pet.changeHunger(-5);
+                System.out.println("You played with " + pet.getName() + "!");
+                break;
+            case "watch movie":
+            case "play video game":
+                pet.changeHappiness(10);
+                pet.changeHealth(-5);
+                System.out.println(pet.getName() + " enjoyed a relaxing movie/game night.");
+                break;
+            default:
+                System.out.println("Invalid activity choice.");
+        }
+    }
+}
+
+class Logic {
+    private Tamagotchi pet;
+    private Player player;
+
+    public Logic(Tamagotchi pet, Player player) {
+        this.pet = pet;
+        this.player = player;
+    }
+
+    public void makeChoice(String category, String choice) {
+        switch (category.toLowerCase()) {
+            case "feed":
+                player.feed(pet, choice);
+                break;
+            case "play":
+                player.play(pet, choice);
+                break;
+            default:
+                System.out.println("Invalid category.");
+        }
+
+        if (!pet.isAlive()) {
+            System.out.println(pet.getStatus());
+            System.out.println("Oh no! " + pet.getName() + " has died. Game Over!!!");
+            System.exit(0);
+        }
+
+        if (pet.canGoOnDate()) {
+            System.out.println("Congratulations! " + pet.getName() + " is ready to go on a date! ");
+            System.out.println("The dating section will be coming soon in the final term!");
+            System.exit(0);
+        }
+    }
+}
+
+import java.util.Scanner;
+
+class UI {
+    public void showStartScreen() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to LittleLife!");
+
+        while (true) {
+            String pronouns;
+            while (true) {
+                System.out.println("Choose your pet's pronouns: (he/him, they/them, she/her)");
+                pronouns = scanner.nextLine().trim().toLowerCase();
+                if (pronouns.equals("he/him") || pronouns.equals("they/them") || pronouns.equals("she/her")) {
+                    break;
+                }
+                System.out.println("Invalid input. Please enter one of the given options.");
+            }
+
+            String petName;
+            while (true) {
+                System.out.println("Enter your pet's name (Max 15 characters, no numbers or symbols):");
+                petName = scanner.nextLine().trim();
+                if (petName.length() > 0 && petName.length() <= 15) {
+                //if (petName.matches("[a-zA-Z ]{1,15}")) {    
+                    break;
+                }
+                System.out.println("Invalid name. Use only letters (A-Z) and spaces, and keep it under 15 characters.");
+            }
+
+            Tamagotchi pet = new Tamagotchi(petName, pronouns);
+            Player player = new Player("Player1");
+            Logic gameLogic = new Logic(pet, player);
+
+            while (true) {
+                System.out.println("\n" + pet.getStatus());
+
+                if (!pet.isAlive()) {
+                    System.out.println("Oh no! Your Tamagotchi has died!");
+                    break;
+                }
+
+                if (pet.canGoOnDate()) {
+                    System.out.println("Congratulations! Your Tamagotchi is ready for a date!");
+                    System.out.println("The dating section will be coming soon in the final term.");
+                    break;
+                }
+
+                System.out.println("What do you want to do? (feed/play/exit)");
+                String category = scanner.nextLine().trim().toLowerCase();
+
+                if (category.equals("exit")) {
+                    System.out.println("Exiting game. Thanks for playing!");
+                    return;
+                }
+
+                if (category.equals("feed")) {
+                    System.out.println("You can feed multiple times. Type 'done' to stop.");
+                    while (true) {
+                        System.out.println("Choose food: (apple, soda, beer, vegetables, candy, water) or type 'done' to stop.");
+                        String foodChoice = scanner.nextLine().trim().toLowerCase();
+                        if (foodChoice.equals("done")) break;
+
+                        gameLogic.makeChoice("feed", foodChoice);
+                        System.out.println("\n" + pet.getStatus());
+
+                        if (pet.canGoOnDate()) {
+                            System.out.println("Congratulations! Your Tamagotchi is ready for a date!");
+                            System.out.println("The dating section will be coming soon in the final term.");
+                            return;
+                        }
+                    }
+                } else if (category.equals("play")) {
+                    System.out.println("You can play multiple times. Type 'done' to stop.");
+                    while (true) {
+                        System.out.println("Choose activity: (fetch, walk, watch movie, play video game) or type 'done' to stop.");
+                        String activityChoice = scanner.nextLine().trim().toLowerCase();
+                        if (activityChoice.equals("done")) break;
+
+                        gameLogic.makeChoice("play", activityChoice);
+                        System.out.println("\n" + pet.getStatus());
+
+                        if (pet.canGoOnDate()) {
+                            System.out.println("Congratulations! Your Tamagotchi is ready for a date!");
+                            System.out.println("The dating section will be coming soon in the final term.");
+                            return;
+                        }
+
+                    }
+                } else {
+                    System.out.println("Invalid choice. Please enter 'feed', 'play', or 'exit'.");
+                }
+            }
+        }
+
+    }
+
+    public static void promptPlayAgain() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Would you like to play again? (yes/no)");
+        String choice = scanner.nextLine().trim().toLowerCase();
+        if (choice.equals("yes")) {
+            new UI().showStartScreen();
+        } else {
+            System.out.println("Thanks for playing! Goodbye.");
+            System.exit(0);
+        }
+    }
+}
