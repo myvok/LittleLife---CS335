@@ -11,34 +11,50 @@ class Tamagotchi {
     private int health;
     private int happiness;
     private int hunger;
+    private int lastDate;
     private boolean isSick;
-    private static final int MAX_VALUE = 130;
+    private static final int MAX_VALUE = 100;
 
     public Tamagotchi(String name, String pronouns) {
         this.name = name;
         this.pronouns = pronouns;
-        this.health = 75;
-        this.happiness = 75;
-        this.hunger = 75;
+        this.health = 50;
+        this.happiness = 50;
+        this.hunger = 50;
+        this.lastDate = 3;
         this.isSick = false;
     }
 
     public void changeHealth(int amount) {
         health = Math.min(health + amount, MAX_VALUE);
+        if (health < 45) {
+            System.out.println("Warning: " + name + "'s health is low (" + health + ")!");
+        }
         checkSickness();
         checkGameOver();
     }
 
     public void changeHappiness(int amount) {
         happiness = Math.min(happiness + amount, MAX_VALUE);
+        if (happiness < 45) {
+            System.out.println("Warning: " + name + "'s happiness is low (" + happiness + ")!");
+        }
         checkSickness();
         checkGameOver();
     }
 
     public void changeHunger(int amount) {
         hunger = Math.min(hunger + amount, MAX_VALUE);
+        if (hunger < 45) {
+            System.out.println("Warning: " + name + "'s hunger is low (" + hunger + ")!");
+        }
         checkSickness();
         checkGameOver();
+    }
+
+    public void changeLastDate(int amount){
+        lastDate = Math.min(lastDate + amount, MAX_VALUE); 
+        canGoOnDate();
     }
 
     private void checkSickness() {
@@ -53,13 +69,12 @@ class Tamagotchi {
     private void checkGameOver() {
         if (health <= 0 || happiness <= 0 || hunger <= 0) {
             System.out.println(name + " has died. Game Over.");
-            //System.exit(0);
             UI.promptPlayAgain();
         }
     }
 
     public boolean canGoOnDate() {
-        return health > 100 && happiness > 100 && hunger > 100;
+        return happiness >= 100 && health >= 100 && hunger >= 100 && lastDate ==3;
     }
 
     public boolean isAlive() {
@@ -96,19 +111,22 @@ class Player {
             case "water":
                 pet.changeHunger(15);
                 pet.changeHealth(15);
+                pet.changeLastDate(1);
                 System.out.println("You fed " + pet.getName() + " healthy food!");
                 break;
             case "soda":
             case "candy":
                 pet.changeHunger(10);
                 pet.changeHealth(-10);
+                pet.changeLastDate(1);
                 System.out.println("You gave " + pet.getName() + " some sugary food.");
                 break;
             case "beer":
             case "junk food":
                 pet.changeHappiness(5);
                 pet.changeHunger(5);
-                pet.changeHealth(-15);
+                pet.changeHealth(-5);
+                pet.changeLastDate(1);
                 System.out.println("You fed " + pet.getName() + " unhealthy food. ");
                 break;
             default:
@@ -123,18 +141,55 @@ class Player {
                 pet.changeHappiness(15);
                 pet.changeHealth(15);
                 pet.changeHunger(-5);
+                pet.changeLastDate(1);
                 System.out.println("You played with " + pet.getName() + "!");
                 break;
             case "watch movie":
             case "play video game":
                 pet.changeHappiness(10);
                 pet.changeHealth(-5);
+                pet.changeLastDate(1);
                 System.out.println(pet.getName() + " enjoyed a relaxing movie/game night.");
                 break;
             default:
                 System.out.println("Invalid activity choice.");
         }
     }
+
+    public void date(Tamagotchi pet, String dates, String gift){
+        switch (dates.toLowerCase()) {
+            case "movie date":
+            case "coffee date":
+                pet.changeHappiness(5);
+                pet.changeHealth(05);
+                pet.changeLastDate(-3);
+                System.out.println( pet.getName() + " is so cool!");
+                switch (gift.toLowerCase()) {
+                    case "flower":
+                    case "chocolates":
+                        pet.changeHappiness(5);
+                        System.out.println( pet.getName() + "'s date loved the gift.");
+                        break;
+            case "dinner date":
+            case "grab drinks":
+                pet.changeHappiness(10);
+                pet.changeHealth(5);
+                pet.changeLastDate(-3); 
+                System.out.println( pet.getName() + "is lovely <3");
+                switch (gift.toLowerCase()) {
+                    case "flower":
+                    case "chocolates":
+                        pet.changeHappiness(5);
+                        System.out.println( pet.getName() + "'s date loved the gift.");
+                        break;
+            
+            default:
+                System.out.println("Invalid date choice");
+        }
+    
+    }
+    }
+}
 }
 
 class Logic {
@@ -154,6 +209,11 @@ class Logic {
             case "play":
                 player.play(pet, choice);
                 break;
+            case "date": 
+                if (pet.canGoOnDate()){
+                    player.date(pet, choice, choice);
+                }
+                
             default:
                 System.out.println("Invalid category.");
         }
@@ -166,12 +226,10 @@ class Logic {
 
         if (pet.canGoOnDate()) {
             System.out.println("Congratulations! " + pet.getName() + " is ready to go on a date! ");
-            System.out.println("The dating section will be coming soon in the final term!");
-            System.exit(0);
+            
         }
     }
 }
-
 import java.util.Scanner;
 
 class UI {
