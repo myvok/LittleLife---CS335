@@ -11,7 +11,7 @@ class Tamagotchi {
     private int health;
     private int happiness;
     private int hunger;
-    private int lastDate;
+    // private int lastDate;
     private boolean isSick;
     private static final int MAX_VALUE = 100;
 
@@ -21,7 +21,7 @@ class Tamagotchi {
         this.health = 50;
         this.happiness = 50;
         this.hunger = 50;
-        this.lastDate = 3;
+        // this.lastDate = 3;
         this.isSick = false;
     }
 
@@ -52,10 +52,10 @@ class Tamagotchi {
         checkGameOver();
     }
 
-    public void changeLastDate(int amount){
-        lastDate = Math.min(lastDate + amount, MAX_VALUE); 
-        canGoOnDate();
-    }
+    // public void changeLastDate(int amount){
+    //     lastDate = Math.min(lastDate + amount, MAX_VALUE); 
+    //     canGoOnDate();
+    // }
 
     private void checkSickness() {
         boolean wasSick = isSick; 
@@ -74,7 +74,7 @@ class Tamagotchi {
     }
 
     public boolean canGoOnDate() {
-        return happiness >= 100 && health >= 100 && hunger >= 100 && lastDate ==3;
+        return happiness >= 100 && health >= 100 && hunger >= 100;        //  && lastDate ==3
     }
 
     public boolean isAlive() {
@@ -111,14 +111,14 @@ class Player {
             case "water":
                 pet.changeHunger(15);
                 pet.changeHealth(15);
-                pet.changeLastDate(1);
+                // pet.changeLastDate(1);
                 System.out.println("You fed " + pet.getName() + " healthy food!");
                 break;
             case "soda":
             case "candy":
                 pet.changeHunger(10);
                 pet.changeHealth(-10);
-                pet.changeLastDate(1);
+                // pet.changeLastDate(1);
                 System.out.println("You gave " + pet.getName() + " some sugary food.");
                 break;
             case "beer":
@@ -126,7 +126,7 @@ class Player {
                 pet.changeHappiness(5);
                 pet.changeHunger(5);
                 pet.changeHealth(-5);
-                pet.changeLastDate(1);
+                // pet.changeLastDate(1);
                 System.out.println("You fed " + pet.getName() + " unhealthy food. ");
                 break;
             default:
@@ -141,14 +141,14 @@ class Player {
                 pet.changeHappiness(15);
                 pet.changeHealth(15);
                 pet.changeHunger(-5);
-                pet.changeLastDate(1);
+                // pet.changeLastDate(1);
                 System.out.println("You played with " + pet.getName() + "!");
                 break;
             case "watch movie":
             case "play video game":
                 pet.changeHappiness(10);
                 pet.changeHealth(-5);
-                pet.changeLastDate(1);
+                // pet.changeLastDate(1);
                 System.out.println(pet.getName() + " enjoyed a relaxing movie/game night.");
                 break;
             default:
@@ -162,7 +162,7 @@ class Player {
             case "coffee date":
                 pet.changeHappiness(5);
                 pet.changeHealth(05);
-                pet.changeLastDate(-3);
+                // pet.changeLastDate(-3);
                 System.out.println( pet.getName() + " is so cool!");
                 switch (gift.toLowerCase()) {
                     case "flower":
@@ -174,7 +174,7 @@ class Player {
             case "grab drinks":
                 pet.changeHappiness(10);
                 pet.changeHealth(5);
-                pet.changeLastDate(-3); 
+                // pet.changeLastDate(-3); 
                 System.out.println( pet.getName() + "is lovely <3");
                 switch (gift.toLowerCase()) {
                     case "flower":
@@ -251,7 +251,7 @@ class UI {
 
             String petName;
             while (true) {
-                System.out.println("Enter your pet's name (Max 15 characters, no numbers or symbols):");
+                System.out.println("Enter your pet's name (Max 15 characters):");
                 petName = scanner.nextLine().trim();
                 if (petName.length() > 0 && petName.length() <= 15) {
                 //if (petName.matches("[a-zA-Z ]{1,15}")) {    
