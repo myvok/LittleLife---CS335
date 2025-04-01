@@ -1,0 +1,92 @@
+package Tamagotchi;
+
+class Player { //all of the players decision options
+    private String name;
+    
+    public Player(String name) { //gets the pets name
+        this.name = name;
+    }
+    public String getName() {
+        return name; //returns name
+    }
+    public void feed(Tamagotchi pet, String food) { //if player chooses the feed option 
+        switch (food.toLowerCase()) {
+            case "apple": //all of the healthy options 
+            case "vegetables":
+            case "water":
+                pet.changeHunger(15); //+15 hunger
+                pet.changeHealth(15); // +15 Health 
+                System.out.println("You fed " + pet.getName() + " healthy food!");
+                break;
+            case "soda": //sugar-y/unhealthy options
+            case "candy":
+                pet.changeHunger(10); //+10 hunger 
+                pet.changeHealth(-10); //-10 health 
+                System.out.println("You gave " + pet.getName() + " some sugary food.");
+                break;
+            case "beer": //unhealthy options
+            case "junk food":
+                pet.changeHappiness(5); //+5 happiness 
+                pet.changeHunger(5); //+5 hunger
+                pet.changeHealth(-5); //-5 health 
+                System.out.println("You fed " + pet.getName() + " unhealthy food. ");
+                break;
+            default:
+                System.out.println("Invalid food choice."); //if you pick anything thats not on the list
+        }
+    }
+
+    public void play(Tamagotchi pet, String activity) { //if player chooses play option
+        switch (activity.toLowerCase()) {
+            case "fetch": //physical activities 
+            case "walk":
+                pet.changeHappiness(15); //+15 happiness
+                pet.changeHealth(15); //+15 health 
+                pet.changeHunger(-5); //-5 hunger 
+                System.out.println("You played with " + pet.getName() + "!");
+                break;
+            case "watch movie": //relaxing activities 
+            case "play video game":
+                pet.changeHappiness(10); //+10 happiness
+                pet.changeHealth(-5); //-5 health 
+                System.out.println(pet.getName() + " enjoyed a relaxing movie/game night.");
+                break;
+            default:
+                System.out.println("Invalid activity choice."); //anything that's not on the list 
+        }
+    }
+
+    public void date(Tamagotchi pet, String dates, String gift){ //player picking date when it's available 
+        switch (dates.toLowerCase()) {
+            case "movie date": //casual date options 
+            case "coffee date":
+                pet.changeHappiness(5); //+5 happiness
+                pet.changeHealth(05); //+5 health 
+                System.out.println( pet.getName() + " is so cool!");
+                switch (gift.toLowerCase()) {
+                    case "flower": //gift options
+                    case "chocolates":
+                        pet.changeHappiness(5);
+                        System.out.println( pet.getName() + "'s date loved the gift.");
+                        break;
+            case "dinner date": //fancier options
+            case "grab drinks":
+                pet.changeHappiness(10); //+10 happiness 
+                pet.changeHealth(5); //+5 health 
+                System.out.println( pet.getName() + "is lovely <3");
+                switch (gift.toLowerCase()) {
+                    case "flower": //gift options
+                    case "chocolates":
+                        pet.changeHappiness(5);
+                        System.out.println( pet.getName() + "'s date loved the gift.");
+                        break;
+            
+            default:
+                System.out.println("Invalid date choice"); //if you choose anything else 
+        }
+    
+    }
+    }
+}
+}
+
