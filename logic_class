@@ -1,0 +1,39 @@
+package Tamagotchi;
+
+public class Logic { //actual game play / what the user sees on the screen 
+	private Tamagotchi pet; //calls tamagotchi class
+	private Player player; //calls player class 
+	
+	public Logic(Tamagotchi pet, Player player) { //makes everything local to this class 
+		this.pet= pet; 
+		this.player = player; 
+		}
+	
+	public void makeChoice(String category, String choice) { //the choices for the player to pick from 
+		switch (category.toLowerCase()) {
+		case "feed": 
+			player.feed(pet, choice); //goes to feed function in Player 
+			break; 
+		case "play": 
+			player.play(pet, choice); //goes to play function in Player 
+			break; 
+		case "date": 
+			player.date(pet, category, choice); //goes to date function in Player 
+			break; 
+		
+		default: 
+			System.out.println("Invalid category"); //if you try to choose something else- won't work 
+	}
+		if (!pet.isAlive()) { //calls on isAlive function in Tamagotchi, if false, it continues 
+			System.out.println(pet.getStatus()); //prints out levels of health, happiness and hunger 
+			System.out.println("Oh no! " + pet.getName() + " has died. Game over!!!"); //prints out game over screen 
+			System.exit(0);
+			
+		}
+		
+		if (pet.canGoOnDate()) { //calls on canGoOnDate function to check if you're ready to take your pet on a date 
+			System.out.println("Congratulations! " + pet.getName() + " is ready to go on a date! ");
+			
+		}
+}}
+
