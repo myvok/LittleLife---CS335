@@ -1,0 +1,22 @@
+package Tamagotchi;
+
+import java.awt.Color;
+
+import javax.swing.*;
+
+public class MainGameUI extends JFrame{
+
+	public MainGameUI() {
+    	JFrame MainGameUI = new JFrame();
+	
+    	
+    	MainGameUI.setTitle("Main Game"); //titles the frame
+    	MainGameUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //makes sure you can leave the frame 
+    	MainGameUI.setResizable(false); //can't resize 
+    	MainGameUI.setSize(400,300); //starting size will probably make it bigger later 
+    	MainGameUI.setLocationRelativeTo(null); //sets in the middle
+    	MainGameUI.getContentPane().setBackground(new Color(252, 252, 206)); //changes background color 
+    	MainGameUI.setLayout(null); //so you can place your labels where you want 
+    	MainGameUI.setVisible(true); //makes the frame visible 
+	}
+}
