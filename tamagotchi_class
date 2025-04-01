@@ -1,0 +1,73 @@
+package Tamagotchi;
+
+class Tamagotchi { //all the info for the pet
+    private String name;
+    private String pronouns;
+    private int health;
+    private int happiness;
+    private int hunger;
+    private boolean isSick;
+    //private boolean canGoOnDate;
+    private static final int MAX_VALUE = 100; //makes sure stats max out at 100%
+ 
+    public Tamagotchi(String name, String pronouns) {//gives the starting stats for the variables 
+        this.name = name;
+        this.pronouns = pronouns;
+        this.health = 50;
+        this.happiness = 50;
+        this.hunger = 50;
+        this.isSick = false;
+    }
+    public void changeHealth(int amount) { //every turn can/will have an effect on health 
+        health = Math.min(health + amount, MAX_VALUE);
+        if (health < 45) {
+            System.out.println("Warning: " + name + "'s health is low (" + health + ")!");
+        }
+        checkSickness(); //checks to see if the pet is sick or dead
+        checkGameOver(); //ends game if dead
+    }
+    public void changeHappiness(int amount) { //turns change happiness 
+        happiness = Math.min(happiness + amount, MAX_VALUE);
+        if (happiness < 45) {
+            System.out.println("Warning: " + name + "'s happiness is low (" + happiness + ")!");
+        }
+        checkSickness(); //sees if pet is sick or dead
+        checkGameOver(); //ends game if dead 
+    }
+    public void changeHunger(int amount) { //hunger changes based on turns 
+        hunger = Math.min(hunger + amount, MAX_VALUE);
+        if (hunger < 45) {
+            System.out.println("Warning: " + name + "'s hunger is low (" + hunger + ")!");
+        }
+        checkSickness(); //sees if pet is sick or dead 
+        checkGameOver(); //ends game if dead
+    }
+    private void checkSickness() { //checks health, happiness, and hunger to see if per is sick
+        boolean wasSick = isSick; 
+        isSick = (health < 40 || happiness < 40 || hunger < 40); //stats need to be below 40 to be sick
+        if (isSick && !wasSick) { 
+            System.out.println(name + " is sick! Take better care of your pet."); //tells player pet is sick
+        }
+    }
+    private void checkGameOver() { //if the pet is dead
+        if (health <= 0 || happiness <= 0 || hunger <= 0) { //stats need to be at 0 for pet to be dead
+            System.out.println(name + " has died. Game Over."); //tells you if the pets dead
+            UI.promptPlayAgain(); //gives you an option to play again
+        }
+    }
+    public boolean canGoOnDate() { //checks to see if the pet can go on date
+        return happiness >= 100 && health >= 100 && hunger >= 100; //will be able to if stats are all at 100
+    }
+    public boolean isAlive() { //checks if the pets alive
+        return health > 0 && happiness > 0 && hunger > 0; //stats just need to be above 0
+    }
+    public String getStatus() { //after every turn youll see your pets stats 
+        String status = name + " (" + pronouns + ") - Health: " + health + ", Happiness: " + happiness + ", Hunger: " + hunger;
+        if (isSick) status += " (Sick)";
+        if (canGoOnDate()) status += " Ready for a date!";
+        return status;
+    }
+    public String getName() {
+        return name; //for when you pick your pets name
+    }
+}
