@@ -1,0 +1,136 @@
+package Tamagotchi;
+
+	import javax.swing.*;
+	import java.awt.*;
+	import java.awt.event.*;
+	import java.util.Random;
+
+	public abstract class guessGame extends JFrame implements ActionListener {
+	    private int numberToGuess;
+	    private int attempts;
+	    private int maxRange = 100;
+
+	    private JTextField guessBox;
+	    private JLabel instructionsLabel;
+	    private JButton guessButton;
+	    private JButton restartButton;
+	    private JComboBox<String> difficultyBox;
+
+	    public guessGame() {
+	    	
+	    	// UI Components
+	        instructionsLabel = new JLabel("Guess a number between 1 and " + maxRange + ":");
+	        instructionsLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 14)); //sets the font and size of the text
+	        instructionsLabel.setBounds(110, 70, 400, 50); 
+	        
+	        
+	        
+	        guessBox = new JTextField(10);
+	        guessBox.setFont(new Font("Comic Sans MS", Font.BOLD, 14)); //sets the font and size of the text
+	        guessBox.setBounds(50, 130, 300, 200); //sets where it is on the frame
+	        guessBox.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
+	        
+	        
+	        guessButton = new JButton("guess");
+	        guessButton.setBounds(120, 195, 150, 35);
+	    	guessButton.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+	    	guessButton.setForeground(new Color(0x8B4513));
+	    	guessButton.setBackground(new Color(0xFFDAB9));
+	    	guessButton.setFocusPainted(false);
+	    	guessButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	    	guessButton.setPreferredSize(new Dimension(200, 60));
+	    	guessButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
+	        // Hover effects
+	    	guessButton.addMouseListener(new MouseAdapter() {
+	            public void mouseEntered(MouseEvent e) {
+	            	guessButton.setBackground(new Color(0xFFB6C1)); // Light Pink
+	            	guessButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3, true));
+	            }
+	            public void mouseExited(MouseEvent e) {
+	            	guessButton.setBackground(new Color(0xFFDAB9)); // Soft Peach
+	            	guessButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
+	            }
+	            public void mousePressed(MouseEvent e) {
+	            	guessButton.setBackground(new Color(0xFFA07A)); // Pale Orange
+	            }
+	            public void mouseReleased(MouseEvent e) {
+	            	guessButton.setBackground(new Color(0xFFDAB9));
+	            }
+	        });
+	        
+	        
+	        restartButton = new JButton("restart");
+	        restartButton.setBounds(120, 195, 150, 100);
+	        restartButton.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+	        restartButton.setForeground(new Color(0x8B4513));
+	        restartButton.setBackground(new Color(0xFFDAB9));
+	        restartButton.setFocusPainted(false);
+	        restartButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	        restartButton.setPreferredSize(new Dimension(200, 60));
+	        restartButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
+	        // Hover effects
+	        restartButton.addMouseListener(new MouseAdapter() {
+	            public void mouseEntered(MouseEvent e) {
+	            	restartButton.setBackground(new Color(0xFFB6C1)); // Light Pink
+	            	restartButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3, true));
+	            }
+	            public void mouseExited(MouseEvent e) {
+	            	restartButton.setBackground(new Color(0xFFDAB9)); // Soft Peach
+	            	restartButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
+	            }
+	            public void mousePressed(MouseEvent e) {
+	            	restartButton.setBackground(new Color(0xFFA07A)); // Pale Orange
+	            }
+	            public void mouseReleased(MouseEvent e) {
+	            	restartButton.setBackground(new Color(0xFFDAB9));
+	            }
+	        });
+	        
+	        
+	        // Click Actions
+	        guessButton.addActionListener(this);
+	        restartButton.addActionListener(e -> startNewGame());
+	        
+	        
+	        // Difficulty 
+	        difficultyBox = new JComboBox<>(new String[]{"Easy", "Medium", "Hard"});
+	        difficultyBox.addActionListener(e -> setDifficulty());
+	    	
+	    	
+	        // Frame setup
+	        setTitle("Guessing Mini Game");
+	        setSize(400, 300);
+	        setDefaultCloseOperation(EXIT_ON_CLOSE);
+	        setLocationRelativeTo(null);
+	        getContentPane().setBackground(new Color(252, 252, 206));
+	        setLayout(null); //so you can place your labels where you want
+	        add(new JLabel("Select Difficulty:"));
+	        add(difficultyBox);
+	        add(instructionsLabel);
+	        add(guessBox);
+	        add(guessButton);
+	        add(restartButton);
+
+	        startNewGame(); // Initialize the game
+	        setVisible(true);
+	    }
+
+	    private void setDifficulty() {
+	        String selected = (String) difficultyBox.getSelectedItem();
+	        if (selected.contains("Easy")) {
+	            maxRange = 50;
+	        } else if (selected.contains("Medium")) {
+	            maxRange = 100;
+	        } else {
+	            maxRange = 200;
+	        }
+	        startNewGame();
+	    }
+
+	    private void startNewGame() {
+	        numberToGuess = new Random().nextInt(maxRange) + 1;
+	        attempts = 0;
+	        instructionsLabel.setText("Guess a number between 1 and " + maxRange );
+
+}
+	    }
