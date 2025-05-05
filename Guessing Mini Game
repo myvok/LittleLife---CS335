@@ -5,7 +5,7 @@ package Tamagotchi;
 	import java.awt.event.*;
 	import java.util.Random;
 
-	public abstract class guessGame extends JFrame implements ActionListener {
+	public class guessGame extends JFrame implements ActionListener {
 	    private int numberToGuess;
 	    private int attempts;
 	    private int maxRange = 100;
@@ -131,6 +131,30 @@ package Tamagotchi;
 	        numberToGuess = new Random().nextInt(maxRange) + 1;
 	        attempts = 0;
 	        instructionsLabel.setText("Guess a number between 1 and " + maxRange );
+	    }
+	        
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            try {
+	                int guess = Integer.parseInt(guessBox.getText().trim());
+	                attempts++;
+
+	                if (guess == numberToGuess) {
+	                    JOptionPane.showMessageDialog(this, "Correct! You guessed it in " + attempts + " tries.");
+	                    startNewGame();
+	                } else if (guess < numberToGuess) {
+	                    JOptionPane.showMessageDialog(this, "Too low. Try again.");
+	                } else {
+	                    JOptionPane.showMessageDialog(this, "Too high. Try again.");
+	                }
+
+	            } catch (NumberFormatException ex) {
+	                JOptionPane.showMessageDialog(this, "Please enter a valid number.");
+	            }
+	        }
+
+	        public static void main(String[] args) {
+	            new guessGame();
 
 }
 	    }
