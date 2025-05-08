@@ -1,0 +1,89 @@
+import java.util.Scanner;
+
+public class TicTacToe {
+    static char[][] board = {
+        {' ', ' ', ' '},
+        {' ', ' ', ' '},
+        {' ', ' ', ' '}
+    };
+
+    static char currentPlayer = 'X';
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        boolean gameEnded = false;
+
+        System.out.println("Welcome to Tic-Tac-Toe!");
+
+        while (!gameEnded) {
+            printBoard();
+            System.out.println("Player " + currentPlayer + ", enter your move (row and column: 0 1): ");
+            int row = scanner.nextInt();
+            int col = scanner.nextInt();
+
+            if (isValidMove(row, col)) {
+                board[row][col] = currentPlayer;
+                if (hasWon(currentPlayer)) {
+                    printBoard();
+                    System.out.println("Player " + currentPlayer + " wins!");
+                    gameEnded = true;
+                } else if (isBoardFull()) {
+                    printBoard();
+                    System.out.println("It's a draw!");
+                    gameEnded = true;
+                } else {
+                    switchPlayer();
+                }
+            } else {
+                System.out.println("Invalid move, try again.");
+            }
+        }
+
+        scanner.close();
+    }
+
+    public static void printBoard() {
+        System.out.println("-------------");
+        for (int row = 0; row < 3; row++) {
+            System.out.print("| ");
+            for (int col = 0; col < 3; col++) {
+                System.out.print(board[row][col] + " | ");
+            }
+            System.out.println();
+            System.out.println("-------------");
+        }
+    }
+
+    public static boolean isValidMove(int row, int col) {
+        return row >= 0 && row < 3 &&
+               col >= 0 && col < 3 &&
+               board[row][col] == ' ';
+    }
+
+    public static void switchPlayer() {
+        currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+    }
+
+    public static boolean isBoardFull() {
+        for (int row = 0; row < 3; row++)
+            for (int col = 0; col < 3; col++)
+                if (board[row][col] == ' ')
+                    return false;
+        return true;
+    }
+
+    public static boolean hasWon(char player) {
+        // Rows, columns, and diagonals
+        for (int i = 0; i < 3; i++) {
+            if ( (board[i][0] == player && board[i][1] == player && board[i][2] == player) || // Row
+                 (board[0][i] == player && board[1][i] == player && board[2][i] == player) )  // Column
+                return true;
+        }
+        if ((board[0][0] == player && board[1][1] == player && board[2][2] == player) || // Diagonal
+            (board[0][2] == player && board[1][1] == player && board[2][0] == player))   // Anti-diagonal
+            return true;
+
+        return false;
+    }
+}
+
